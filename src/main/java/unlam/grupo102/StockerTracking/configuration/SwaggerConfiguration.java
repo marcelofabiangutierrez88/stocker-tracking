@@ -30,7 +30,7 @@ public class SwaggerConfiguration {
         return new ApiInfo(
                 "Stocker Tracking API",
                 "API en SpringBoot para sistema de Tracking de StockerAPP ",
-                "1.0.0",
+                "0.0.1-SNAPSHOT",
                 "http://Stocker.com/terms",
                 new Contact("Stocker", "Stocker", "Stocker"),
                 "LICENSE",

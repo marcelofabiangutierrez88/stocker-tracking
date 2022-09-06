@@ -37,8 +37,10 @@ public class StockerTrackingController {
 
         try {
             String jsonResponse = restTemplate.getForObject(uri, String.class);
+
             ObjectMapper objectMapper = new ObjectMapper();
             responseBackend = objectMapper.readValue(jsonResponse, StockerPedidoResponse.class);
+
             StockerTracking stockerTracking = setForDBTracking(responseBackend);
 
             Optional find = repository.findById(stockerTracking.getId());
@@ -88,9 +90,9 @@ public class StockerTrackingController {
 
         Random random = new Random();
         int randomItem = random.nextInt(randomDeliviery.size());
-        String randomDeleveryMethod = randomDeliviery.get(randomItem);
+        String randomDeliveryMethod = randomDeliviery.get(randomItem);
 
-        return randomDeleveryMethod;
+        return randomDeliveryMethod;
     }
 
 }
