@@ -1,17 +1,26 @@
 package unlam.grupo102.StockerTracking.models.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import unlam.grupo102.StockerTracking.models.pojo.Pedido;
+import unlam.grupo102.StockerTracking.models.pojo.Venta;
 
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StockerPedidoResponse implements Serializable {
+public class StockerVentaResponse implements Serializable {
 
     private boolean ok;
-    private Pedido pedido;
+
+    private Venta venta;
     private String total;
     private ErrorRest error;
+
+    public Venta getPedido() {
+        return venta;
+    }
+
+    public void setPedido(Venta venta) {
+        this.venta = venta;
+    }
 
     public boolean isOk() {
         return ok;
@@ -19,14 +28,6 @@ public class StockerPedidoResponse implements Serializable {
 
     public void setOk(boolean ok) {
         this.ok = ok;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
     }
 
     public String getTotal() {
