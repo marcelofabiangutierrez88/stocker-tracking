@@ -1,4 +1,4 @@
-package unlam.grupo102.StockerTracking.util;
+/*package unlam.grupo102.StockerTracking.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,3 +60,4 @@ public class StockerTrackingControllerAdvice extends ResponseEntityExceptionHand
     }
 
 }
+*/

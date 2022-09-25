@@ -1,16 +1,18 @@
 package unlam.grupo102.StockerTracking.controller;
 
+import com.mongodb.MongoWriteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import unlam.grupo102.StockerTracking.models.pojo.Venta;
+import unlam.grupo102.StockerTracking.models.response.ErrorRest;
 import unlam.grupo102.StockerTracking.models.response.StockerVentaResponse;
 import unlam.grupo102.StockerTracking.repository.StockerTrackingRepository;
+
+import java.text.ParseException;
 
 
 @RestController
@@ -19,29 +21,41 @@ public class StockerTrackingController {
     @Value("${uri.stocker.backend.pedido}")
     private String uriBackend;
 
-    @Value("&{uri.stocker.stocker.store.id.venta}")
+    @Value("${uri.stocker.stocker.store.id.venta}")
     private String uriStockerStore;
-
-
     @Autowired
     private StockerTrackingRepository repository;
+
+    private Venta ventaResponse;
+
+    private StockerVentaResponse response = new StockerVentaResponse();
+
     private RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping(value = "${endpoint.stocker.tracking}")
-    public ResponseEntity<StockerVentaResponse> getVentaById(@PathVariable String idVenta){
+    @GetMapping(value = "${endpoint.stocker.tracking}", consumes = {"application/json"})
+    public StockerVentaResponse getVentaById(@RequestParam String idVenta){
 
-        StockerVentaResponse ventaResponse = new StockerVentaResponse();
         String uri = uriStockerStore + idVenta;
 
-        HttpEntity<?> entity = new HttpEntity<>(idVenta);
-
-        ventaResponse = restTemplate.exchange(
+        ventaResponse = restTemplate.getForObject(
                 uri,
-                HttpMethod.GET,
-                entity,
-                StockerVentaResponse.class).getBody();
+                Venta.class);
 
-        return ResponseEntity.ok().body(ventaResponse);
+        if(ventaResponse != null) {
+            try {
+                repository.insert(ventaResponse);
+                response.setOk(true);
+                response.setVenta(ventaResponse);
+                response.setTotal( ventaResponse.getTotalVenta()+"");
+            }catch (MongoWriteException err){
+                ErrorRest errorRest = new ErrorRest();
+                errorRest.setCode(err.getLocalizedMessage());
+                errorRest.setDescription(err.getMessage());
+                response.setError(errorRest);
+            }
+        }
+
+        return response;
     }
 
 

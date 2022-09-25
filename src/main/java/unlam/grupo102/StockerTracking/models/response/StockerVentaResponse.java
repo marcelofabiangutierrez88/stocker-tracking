@@ -14,11 +14,11 @@ public class StockerVentaResponse implements Serializable {
     private String total;
     private ErrorRest error;
 
-    public Venta getPedido() {
+    public Venta getVenta() {
         return venta;
     }
 
-    public void setPedido(Venta venta) {
+    public void setVenta(Venta venta) {
         this.venta = venta;
     }
 
@@ -44,5 +44,21 @@ public class StockerVentaResponse implements Serializable {
 
     public void setError(ErrorRest error) {
         this.error = error;
+    }
+
+    public String toStringError() {
+        return "StockerVentaResponse{" +
+                "error=" + error +
+                '}';
+    }
+
+    @Override
+    public String toString() {
+        return "StockerVentaResponse{" +
+                "ok=" + ok +
+                ", venta=" + venta +
+                ", total='" + total + '\'' +
+                ", error=" + error +
+                '}';
     }
 }
