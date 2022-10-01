@@ -1,60 +1,26 @@
 package unlam.grupo102.StockerTracking.controller;
 
-import com.mongodb.MongoWriteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import unlam.grupo102.StockerTracking.models.pojo.Venta;
-import unlam.grupo102.StockerTracking.models.response.ErrorRest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import unlam.grupo102.StockerTracking.models.response.StockerVentaResponse;
-import unlam.grupo102.StockerTracking.repository.StockerTrackingRepository;
-
-import java.text.ParseException;
+import unlam.grupo102.StockerTracking.service.TrackingService;
 
 
 @RestController
 public class StockerTrackingController {
-
-    @Value("${uri.stocker.backend.pedido}")
-    private String uriBackend;
-
-    @Value("${uri.stocker.stocker.store.id.venta}")
-    private String uriStockerStore;
+    private Logger logger = LoggerFactory.getLogger(StockerTrackingController.class);
     @Autowired
-    private StockerTrackingRepository repository;
-
-    private Venta ventaResponse;
-
-    private StockerVentaResponse response = new StockerVentaResponse();
-
-    private RestTemplate restTemplate = new RestTemplate();
-
+    private TrackingService trackingService;
     @GetMapping(value = "${endpoint.stocker.tracking}", consumes = {"application/json"})
-    public StockerVentaResponse getVentaById(@RequestParam String idVenta){
-
-        String uri = uriStockerStore + idVenta;
-
-        ventaResponse = restTemplate.getForObject(
-                uri,
-                Venta.class);
-
-        if(ventaResponse != null) {
-            try {
-                repository.insert(ventaResponse);
-                response.setOk(true);
-                response.setVenta(ventaResponse);
-                response.setTotal( ventaResponse.getTotalVenta()+"");
-            }catch (MongoWriteException err){
-                ErrorRest errorRest = new ErrorRest();
-                errorRest.setCode(err.getLocalizedMessage());
-                errorRest.setDescription(err.getMessage());
-                response.setError(errorRest);
-            }
-        }
-
+    public ResponseEntity<?> getVentaById(@RequestParam String idVenta){
+        logger.info("Controller getVentaById(@RequestParam "+ idVenta +" - start");
+        StockerVentaResponse response = trackingService.ventaByIdService(idVenta);
+        logger.info("Controller getVentaById whit response: "+ response +" - end");
         return response;
     }
 
