@@ -90,7 +90,7 @@ public class StockerTrackingController {
             producto.setNombreProducto(resp.getDetalle().get(i).getIdProducto().getNombre());
             producto.setDescripcionProducto(resp.getDetalle().get(i).getIdProducto().getDescripcion());
             producto.setCantidad(resp.getDetalle().get(i).getCantidad());
-            producto.setPrecio(resp.getDetalle().get(0).getPrecio());
+            producto.setPrecio(resp.getDetalle().get(i).getPrecio());
 
             productoList.add(producto);
 
