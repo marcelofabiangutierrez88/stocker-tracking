@@ -1,19 +1,12 @@
-package unlam.grupo102.StockerTracking.models.pojo;
+package unlam.grupo102.StockerTracking.models.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class IdUsuario{
-
-	@JsonProperty("apellido")
 	private String apellido;
-
 	@JsonProperty("_id")
 	private String id;
-
-	@JsonProperty("nombre")
 	private String nombre;
-
-	@JsonProperty("email")
 	private String email;
 
 	public String getApellido(){

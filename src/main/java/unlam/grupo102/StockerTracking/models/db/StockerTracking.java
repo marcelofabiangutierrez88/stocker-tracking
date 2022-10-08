@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection ="StockerTracking")
@@ -13,7 +15,6 @@ public class StockerTracking implements Serializable {
 
     @Id
     private String id;
-
     @Field("id_pedido")
     private String idPedido;
     @Field("direccion")
@@ -22,14 +23,22 @@ public class StockerTracking implements Serializable {
     private String nombreCliente;
     @Field("apellido_cliente")
     private String apellidoCliente;
-    @Field("nombre_producto")
-    private String nombreProducto;
-    @Field("descripcion_producto")
-    private String descProducto;
+    @Field("productos")
+    private List<Producto> productoList = new ArrayList<>();
     @Field("fecha_entrega")
     private String fechaEntrega;
     @Field("metodo_entega")
     private String metodoEntrega;
+
+
+    public List<Producto> getProductoList() {
+        return productoList;
+    }
+
+    public StockerTracking setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
+        return this;
+    }
 
     public String getId() {
         return id;
@@ -64,24 +73,6 @@ public class StockerTracking implements Serializable {
 
     public StockerTracking setApellidoCliente(String apellidoCliente) {
         this.apellidoCliente = apellidoCliente;
-        return this;
-    }
-
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
-
-    public StockerTracking setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
-        return this;
-    }
-
-    public String getDescProducto() {
-        return descProducto;
-    }
-
-    public StockerTracking setDescProducto(String descProducto) {
-        this.descProducto = descProducto;
         return this;
     }
 
