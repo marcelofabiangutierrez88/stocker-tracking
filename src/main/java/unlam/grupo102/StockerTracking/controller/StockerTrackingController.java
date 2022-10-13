@@ -34,6 +34,7 @@ public class StockerTrackingController {
     @Autowired
     private StockerTrackingRepository repository;
 
+
     @CrossOrigin(origins = "http://localhost:3010")
     @GetMapping(value = "/getPedido/{idVenta}")
     public ResponseEntity<?> getPedidosById(@PathVariable String idVenta) {

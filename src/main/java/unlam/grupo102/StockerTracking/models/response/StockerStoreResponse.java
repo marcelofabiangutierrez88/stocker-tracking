@@ -22,6 +22,7 @@ public class StockerStoreResponse{
 	private String status;
 	private String direccion;
 
+
 	private ErrorRest errorRest;
 
 	public ErrorRest getErrorRest() {
