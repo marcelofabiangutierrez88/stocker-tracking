@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,7 @@ public class StockerTrackingController {
     @Autowired
     private StockerTrackingRepository repository;
 
+    @CrossOrigin(origins = "http://localhost:3010")
     @GetMapping(value = "/getPedido/{idVenta}")
     public ResponseEntity<?> getPedidosById(@PathVariable String idVenta) {
         StockerStoreResponse responseBackend = new StockerStoreResponse();
@@ -83,6 +85,7 @@ public class StockerTrackingController {
                 .setApellidoCliente(resp.getIdUsuario().getApellido())
                 .setNombreCliente(resp.getIdUsuario().getNombre())
                 .setMetodoEntrega(generateRandomDeliveryMethod())
+                .setDireccion(resp.getDireccion())
                 .setFechaEntrega("15/11/2022");
         for (int i = 0; i < resp.getDetalle().size(); i++) {
             Producto producto = new Producto();

@@ -20,6 +20,7 @@ public class StockerStoreResponse{
 	private String _id;
 	private List<DetalleItem> detalle;
 	private String status;
+	private String direccion;
 
 	private ErrorRest errorRest;
 
@@ -102,5 +103,13 @@ public class StockerStoreResponse{
 
 	public String getStatus(){
 		return status;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 }
